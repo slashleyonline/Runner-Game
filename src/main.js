@@ -1,3 +1,7 @@
+// Name: Ashley Seward
+// Title: InfiniBoarder
+
+// CREATIVE JUSTIFICATION AND CITATIONS NEEDED
 let config = {
     type: Phaser.AUTO,
 
