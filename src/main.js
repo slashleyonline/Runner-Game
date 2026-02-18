@@ -1,7 +1,12 @@
 let config = {
     type: Phaser.AUTO,
+
     width: 640,
     height: 480,
+
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+    zoom: 1.8,
+
     scene: [Menu, Play],
 }
 
