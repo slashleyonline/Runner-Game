@@ -12,23 +12,23 @@ class Menu extends Phaser.Scene {
     }
 
     create() {
+        this.cameras.main.setZoom(1)
+
         //generate terrain from top to bottom, left to
+
+        const BOX_SIZE = 96
         let offset = true
-        for (let j = 0; j < game.config.height + 16; j += 13) {
-            for (let i = 0; i <=  game.config.width + 48; i += 48) {
-                var isoBox = this.add.isobox(i + (offset * 24), j, 48, 16)
-                isoBox.fillTop = "0xFFFFFF"
-                isoBox.fillLeft = "0x999999"
-                isoBox.fillRight = "0x999999"
+        for (let j = 26; j < (game.config.height - 52); j += 26) {
+            for (let i = BOX_SIZE; i <  (game.config.width - BOX_SIZE); i += BOX_SIZE) {
+                var terrainBox = new TerrainBox(this, i + (offset * (BOX_SIZE / 2)), j, BOX_SIZE, 16)
             }
             offset = !offset
+            
+            //this.physics.add.existing(isoBox)
+            //isoBox.setVelocityX(.1)
+            //isoBox.setImmovable
         }
-
-        this.player = new Player(this, game.config.width / 2, game.config.height / 2)
-
-    }
-
-    update() {
         
+        this.player = new Player(this, game.config.width / 2, game.config.height / 2)
     }
 }
