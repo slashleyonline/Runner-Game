@@ -3,6 +3,8 @@
 
 //CITATIONS:
 // StateMachine.js from mkelly.me/blog/phaser-finite-state-machine, Thanks Nathan Altice
+// Edmunds Font by Typodermic Fonts: https://www.dafont.com/edmunds.font?l[]=10
+
 
 // CREATIVE JUSTIFICATION AND CITATIONS NEEDED
 let config = {
@@ -25,7 +27,7 @@ let config = {
     autoCenter: Phaser.Scale.CENTER_BOTH,
     zoom: 1,
 
-    scene: [Play, Menu],
+    scene: [Menu, Play],
 }
 
 let game = new Phaser.Game(config)

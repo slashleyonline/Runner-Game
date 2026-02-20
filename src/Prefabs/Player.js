@@ -28,7 +28,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.scale = 2.5
 
         //adding gun
-        this.playerGun = new PlayerGun(this.scene, this, this.x, this.y)
+        this.playerGun = new PlayerGun(this.scene, this, this.body.x + 40, this.body.y + 40)
 
         //FSMs
         this.parentScene.gameFSM = new StateMachine('playing', {
@@ -121,9 +121,7 @@ class MoveLeftState extends State {
 class MoveRightState extends State {
     enter(scene, player){
         player.body.setVelocityX(100)
-
         player.play('run', true)
-
     }
     
     execute(scene, player){
@@ -148,7 +146,6 @@ class MoveRightState extends State {
 
 class JumpingState extends State {
     enter(scene, player) {
-        console.log('jumping!')
         player.play('jump')
         player.body.setVelocityY(-1000);
     }
@@ -156,7 +153,6 @@ class JumpingState extends State {
     execute(scene, player){
         if (player.body.touching.down) {
             const {left, right, up, down, space, shift} = scene.keys
-
             player.play('run', true)
 
             if(Phaser.Input.Keyboard.JustDown(left)) {
@@ -181,7 +177,9 @@ class JumpingState extends State {
 class AimingState extends State {
     //default
     enter(scene, playerGun) {
-        playerGun.play('bounceArm', true)
+        if (scene.scene.key != 'menuScene'){
+            playerGun.play('bounceArm', true)
+        }
 
         scene.input.once('pointerdown', () => {
             this.stateMachine.transition('shooting')
@@ -211,7 +209,6 @@ class ShootingState extends State {
             delay: 100, // in ms
             callback: () => {
                 this.stateMachine.transition('aiming')
-                console.log('back to aiming')
                 return
 
             },

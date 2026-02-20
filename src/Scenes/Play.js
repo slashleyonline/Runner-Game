@@ -4,84 +4,11 @@ class Play extends Phaser.Scene {
     }
 
     init() {
-
         //setting gravity
         this.physics.world.gravity.y = 2600
     }
 
-    preload() {
-        //loading sprites/images
-
-        this.load.path = "./assets/"
-        this.load.spritesheet("cowboy", "cowboy_sheet.png", {
-            frameWidth: 48,
-            frameHeight: 48
-        })
-        this.load.spritesheet('ground', 'ground.png', {
-            frameWidth: 650,
-            frameHeight: 120
-        })
-        this.load.spritesheet('groundBody', 'ground_body.png', {
-            frameWidth: 650,
-            frameHeight: 120
-        })
-        this.load.spritesheet('crow','crow.png', {
-            frameWidth: 16,
-            frameHeight: 16
-        })
-
-        this.load.image('sky', 'sky.png')
-        this.load.image('bullet', 'bullet.png')
-    }
-
     create() {
-
-        // Create Anims
-        this.anims.create({
-            key: 'run',
-            frameRate: 10,
-            repeat: -1,
-            frames: this.anims.generateFrameNumbers('cowboy', {
-                start: 0,
-                end: 4,
-            })
-        })
-        this.anims.create({
-            key: 'bounceArm',
-            frameRate: 8,
-            repeat: -1,
-            frames: this.anims.generateFrameNumbers('cowboy',{
-                start: 5,
-                end: 6,
-            })
-        })
-        this.anims.create({
-            key: 'jump',
-            frameRate: 2,
-            repeat: -1,
-            frames: this.anims.generateFrameNumbers('cowboy',{
-                start: 2,
-                end: 3,
-            })
-        })
-        this.anims.create({
-            key: 'fire',
-            frameRate: 5,
-            repeat: 0,
-            frames: this.anims.generateFrameNumbers('cowboy',{
-                start: 7,
-                end: 8,
-            })
-        })
-        this.anims.create({
-            key: 'fly',
-            frameRate: 8,
-            repeat: -1,
-            frames: this.anims.generateFrameNumbers('crow',{
-                start:0,
-                end: 2
-            })
-        })
 
         //collision groups
         this.bulletColliderGroup = this.physics.add.group()
@@ -89,20 +16,19 @@ class Play extends Phaser.Scene {
 
         //keyboard input setup
         this.keys = this.input.keyboard.createCursorKeys()
-
         this.add.image(game.config.width / 2, game.config.height / 2, 'sky')
 
         //instantiating game objects
-        this.player = new Player(this, game.config.width / 2, game.config.height / 2)
+        this.player = new Player(this, game.config.width / 4, 390)
         this.playerGun = this.player.playerGun
 
-        this.ground1 = new Ground(this, 0, game.config.height * 9/10)
-        this.ground2 = new Ground(this, game.config.width, game.config.height * 9/10)
+        this.ground1 = new Ground(this, 0, game.config.height * 9/10, -500)
+        this.ground2 = new Ground(this, game.config.width, game.config.height * 9/10, -500)
 
         this.crow1 = new Crow(this, game.config.width  * (4/5), game.config.height * 1/3)
 
         //setting up static ground
-        this.groundBody = this.physics.add.sprite(game.config.width / 2, game.config.height, 'groundBody')
+        this.groundBody = new GroundBody(this, game.config.width / 2, game.config.height, 'groundBody')
         this.physics.add.collider(this.player, this.groundBody)
 
         //moving player sprites to front layer
