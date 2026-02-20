@@ -42,8 +42,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 class RunningState extends State {
     enter(scene, player) {
         player.body.setVelocity(0)
-        player.play('run')
-        player.playerGun.play('bounceArm')
+        player.play('run', true)
+        player.playerGun.play('bounceArm', true)
     }
     execute(scene, player){
         const {left, right, up, down, space, shift} = scene.keys
@@ -70,6 +70,10 @@ class MoveLeftState extends State {
         //player.play('run')
         //player.playerGun.play('bounceArm')
         player.body.setVelocityX(-100)
+
+        player.play('run', true)
+        player.playerGun.play('bounceArm', true)
+
     }
     
     execute(scene, player){
@@ -98,6 +102,9 @@ class MoveRightState extends State {
         //player.play('run')
         //player.playerGun.play('bounceArm')
         player.body.setVelocityX(100)
+
+        player.play('run', true)
+        player.playerGun.play('bounceArm', true)
     }
     
     execute(scene, player){
@@ -122,10 +129,30 @@ class MoveRightState extends State {
 
 class JumpingState extends State {
     enter(scene, player) {
-        player.body.setVelocityY(100)
+        console.log('jumping!')
+        player.body.setVelocityY(-1000);
     }
     
     execute(scene, player){
-        if player.body.
+        if (player.body.touching.down) {
+
+            const {left, right, up, down, space, shift} = scene.keys
+
+
+            if(Phaser.Input.Keyboard.JustDown(left)) {
+                this.stateMachine.transition('moveLeft')
+                return
+            }
+
+            if(Phaser.Input.Keyboard.JustDown(right)) {
+                this.stateMachine.transition('moveRight')
+                return
+            }
+
+            if(!left.isDown && !right.isDown) {
+                this.stateMachine.transition('running')
+                return
+            }
+        }
     }
 }
