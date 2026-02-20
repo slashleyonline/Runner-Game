@@ -8,17 +8,21 @@ let config = {
     width: 640,
     height: 480,
 
+    render: {
+        pixelArt: true
+    },
+
     physics: {
         default: "arcade",
         arcade: {
-            //debug: true
+            debug: true
         }
     },
 
     autoCenter: Phaser.Scale.CENTER_BOTH,
-    zoom: 1.8,
+    zoom: 1,
 
-    scene: [Menu, Play],
+    scene: [Play, Menu],
 }
 
 let game = new Phaser.Game(config)
