@@ -16,11 +16,12 @@ class Menu extends Phaser.Scene {
 
         //generate terrain from top to bottom, left to
 
-        const BOX_SIZE = 96
+        const BOX_SIZE = 80
+        const Y_PLACE = BOX_SIZE * 0.27
         let offset = true
-        for (let j = 26; j < (game.config.height - 52); j += 26) {
-            for (let i = BOX_SIZE; i <  (game.config.width - BOX_SIZE); i += BOX_SIZE) {
-                var terrainBox = new TerrainBox(this, i + (offset * (BOX_SIZE / 2)), j, BOX_SIZE, 16)
+        for (let j = Y_PLACE; j <= (game.config.height - BOX_SIZE); j += Y_PLACE) {
+            for (let i = BOX_SIZE * 2; i <=  (game.config.width - BOX_SIZE * 2); i += BOX_SIZE) {
+                var terrainBox = new TerrainBox(this, i + (offset * (BOX_SIZE / 2)), j, BOX_SIZE, 16, offset)
             }
             offset = !offset
             
