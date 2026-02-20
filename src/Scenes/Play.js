@@ -26,7 +26,7 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-
+        this.background = this.add.sprite(game.config.width / 2, game.config.height / 2)
 
         this.player = new Player(this, game.config.width / 2, game.config.height / 2)
         this.playerGun = this.player.playerGun

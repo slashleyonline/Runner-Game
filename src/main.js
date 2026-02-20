@@ -1,5 +1,5 @@
 // Name: Ashley Seward
-// Title: InfiniBoarder
+// Title: Rancher-Run
 
 // CREATIVE JUSTIFICATION AND CITATIONS NEEDED
 let config = {

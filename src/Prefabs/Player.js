@@ -6,7 +6,7 @@ class PlayerGun extends Phaser.GameObjects.Sprite {
         this.parentScene = scene
         this.parentScene.add.existing(this)
 
-        this.setOrigin(0.35,0.30)
+        this.setOrigin(0.37,0.25)
 
         this.scale = 2.5
     }
