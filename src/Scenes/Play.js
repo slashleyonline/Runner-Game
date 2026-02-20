@@ -4,10 +4,14 @@ class Play extends Phaser.Scene {
     }
 
     init() {
+
+        //setting gravity
         this.physics.world.gravity.y = 2600
     }
 
     preload() {
+        //loading sprites/images
+
         this.load.path = "./assets/"
         this.load.spritesheet("cowboy", "cowboy_sheet.png", {
             frameWidth: 48,
@@ -32,7 +36,7 @@ class Play extends Phaser.Scene {
 
     create() {
 
-        // player animation
+        // Create Anims
         this.anims.create({
             key: 'run',
             frameRate: 10,
@@ -63,7 +67,7 @@ class Play extends Phaser.Scene {
         this.anims.create({
             key: 'fire',
             frameRate: 5,
-            repeat: -1,
+            repeat: 0,
             frames: this.anims.generateFrameNumbers('cowboy',{
                 start: 7,
                 end: 8,
@@ -79,54 +83,41 @@ class Play extends Phaser.Scene {
             })
         })
 
+        //collision groups
+        this.bulletColliderGroup = this.physics.add.group()
+        this.crowColliderGroup = this.physics.add.group()
+
         //keyboard input setup
         this.keys = this.input.keyboard.createCursorKeys()
 
         this.add.image(game.config.width / 2, game.config.height / 2, 'sky')
 
+        //instantiating game objects
         this.player = new Player(this, game.config.width / 2, game.config.height / 2)
         this.playerGun = this.player.playerGun
 
         this.ground1 = new Ground(this, 0, game.config.height * 9/10)
         this.ground2 = new Ground(this, game.config.width, game.config.height * 9/10)
 
-        this.crow1 = new Crow(this, this.player, game.config.width  * (4/5), game.config.height * 1/3)
+        this.crow1 = new Crow(this, game.config.width  * (4/5), game.config.height * 1/3)
 
+        //setting up static ground
         this.groundBody = this.physics.add.sprite(game.config.width / 2, game.config.height, 'groundBody')
-        this.groundBody.setImmovable(true)
-        this.groundBody.body.allowGravity = false
         this.physics.add.collider(this.player, this.groundBody)
 
+        //moving player sprites to front layer
         this.player.body.gameObject.setToTop()
-
-        this.playerGun.setToTop()
-
-        console.log(game.config.width)
-    
+        this.playerGun.setToTop()    
     }
     
     update() {
+        //step FSMs
+        this.gameFSM.step()
         this.gunFSM.step()
         this.movementFSM.step()
+        this.crowFSM.step()
 
-        this.playerGun.x = this.player.body.x + 40
-        this.playerGun.y = this.player.body.y + 40
-
-        this.physics.moveToObject(this.crow1, this.player)
-
-        console.log(Phaser.Math.Distance.Between(this.player.x, this.player.y, this.crow1.x, this.crow1.y))
-        if (Phaser.Math.Distance.Between(this.player.x, this.player.y, this.crow1.x, this.crow1.y) < 60) {
-            console.log('game over!')
-        }
-        
-        const { worldX, worldY } = this.input.activePointer;
-
-        const angleToPointer = (
-            Math.atan2(worldY - this.playerGun.y,  worldX - this.playerGun.x)
-        );
-
-        this.player.playerGun.rotation = angleToPointer
-
+        //Move Ground sprites
         if (this.ground1.x < -319) {
             this.ground1.x = game.config.width + 319
         }

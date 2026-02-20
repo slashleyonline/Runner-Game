@@ -32,6 +32,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.scale = 2.5
 
+        this.parentScene.gameFSM = new StateMachine('playing', {
+            playing: new PlayingState(),
+            gameOver: new GameOverState() 
+        }, [scene, this])
+
         this.parentScene.movementFSM = new StateMachine('running', {
             running: new RunningState(),
             moveLeft: new MoveLeftState(),
@@ -47,6 +52,17 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 }
 
+class PlayingState extends State {
+    execute(scene, player) {
+        //Make playerGun follow player
+        player.playerGun.x = player.body.x + 40
+        player.playerGun.y = player.body.y + 40
+    }
+}
+
+class GameOverState extends State {
+
+}
 
 class RunningState extends State {
     enter(scene, player) {
@@ -169,25 +185,38 @@ class JumpingState extends State {
 class AimingState extends State {
     enter(scene, playerGun) {
         playerGun.play('bounceArm', true)
-    }
-    execute(scene, playerGun) {
-        scene.input.on('pointerdown', () => {
-            console.log('bam!')
+
+        scene.input.once('pointerdown', () => {
             this.stateMachine.transition('shooting')
             return
         })
+    }
+    execute(scene, playerGun) {
+        
+        const { worldX, worldY } = scene.input.activePointer;
+        const angleToPointer = (
+            Math.atan2(worldY - playerGun.y,  worldX - playerGun.x)
+        );
+
+        playerGun.rotation = angleToPointer
     }
 }
 class ShootingState extends State {
     enter(scene, playerGun) {
         playerGun.play('fire')
-        
+
+        const { worldX, worldY } = scene.input.activePointer;
+
+        this.bullet = new Bullet(scene, worldX, worldY, playerGun.x, playerGun.y, playerGun.rotation)
+
         scene.time.addEvent({
-            delay: 350, // in ms
+            delay: 100, // in ms
             callback: () => {
                 this.stateMachine.transition('aiming')
+                console.log('back to aiming')
                 return
-            }
+
+            },
         })
     }
 }
