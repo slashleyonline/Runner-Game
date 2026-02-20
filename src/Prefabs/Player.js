@@ -17,21 +17,20 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y) {
         super(scene, x, y, "cowboy", 0)
         
+        //instantiate to scene
         this.parentScene = scene
         this.parentScene.add.existing(this)
         this.parentScene.physics.add.existing(this)
 
+        //physics/scale tweaking
         this.body.setCollideWorldBounds()
-
-        this.playerGun = new PlayerGun(this.scene, this, this.x, this.y)
-
-        this.setOrigin(0.5, 0.5)
-        
-
         this.body.allowGravity = true
-
         this.scale = 2.5
 
+        //adding gun
+        this.playerGun = new PlayerGun(this.scene, this, this.x, this.y)
+
+        //FSMs
         this.parentScene.gameFSM = new StateMachine('playing', {
             playing: new PlayingState(),
             gameOver: new GameOverState() 
@@ -61,10 +60,14 @@ class PlayingState extends State {
 }
 
 class GameOverState extends State {
+    enter() {
+        //code here should bring game to an end
+    }
 
 }
 
 class RunningState extends State {
+    //default
     enter(scene, player) {
         player.body.setVelocity(0)
         player.play('run', true)
@@ -90,9 +93,6 @@ class RunningState extends State {
 }
 class MoveLeftState extends State {
     enter(scene, player){
-        console.log('moving left!')
-        //player.play('run')
-        //player.playerGun.play('bounceArm')
         player.body.setVelocityX(-100)
         player.play('run', true)
 
@@ -120,9 +120,6 @@ class MoveLeftState extends State {
 
 class MoveRightState extends State {
     enter(scene, player){
-        console.log('moving right!')
-        //player.play('run')
-        //player.playerGun.play('bounceArm')
         player.body.setVelocityX(100)
 
         player.play('run', true)
@@ -162,7 +159,6 @@ class JumpingState extends State {
 
             player.play('run', true)
 
-
             if(Phaser.Input.Keyboard.JustDown(left)) {
                 this.stateMachine.transition('moveLeft')
                 return
@@ -183,6 +179,7 @@ class JumpingState extends State {
 
 
 class AimingState extends State {
+    //default
     enter(scene, playerGun) {
         playerGun.play('bounceArm', true)
 
@@ -202,6 +199,7 @@ class AimingState extends State {
     }
 }
 class ShootingState extends State {
+    //default
     enter(scene, playerGun) {
         playerGun.play('fire')
 
@@ -221,6 +219,7 @@ class ShootingState extends State {
     }
 }
 class ReloadingState extends State {
+    //may get axed depending on how much time is left
     enter(scene, playerGun) {
 
     }
