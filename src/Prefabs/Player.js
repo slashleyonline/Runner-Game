@@ -21,6 +21,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.parentScene.add.existing(this)
         this.parentScene.physics.add.existing(this)
 
+        this.body.setCollideWorldBounds()
+
         this.playerGun = new PlayerGun(this.scene, this, this.x, this.y)
 
         this.body.allowGravity = true

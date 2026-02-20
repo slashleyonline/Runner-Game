@@ -22,11 +22,11 @@ class Play extends Phaser.Scene {
             frameHeight: 120
         })
 
-        this.load.sprite
+        this.load.image('sky', 'sky.png')
     }
 
     create() {
-        this.background = this.add.sprite(game.config.width / 2, game.config.height / 2)
+        this.add.image(game.config.width / 2, game.config.height / 2, 'sky')
 
         this.player = new Player(this, game.config.width / 2, game.config.height / 2)
         this.playerGun = this.player.playerGun
