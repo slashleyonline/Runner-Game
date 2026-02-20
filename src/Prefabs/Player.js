@@ -25,6 +25,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.playerGun = new PlayerGun(this.scene, this, this.x, this.y)
 
+        this.setOrigin(0.5, 0.5)
+        
+
         this.body.allowGravity = true
 
         this.scale = 2.5

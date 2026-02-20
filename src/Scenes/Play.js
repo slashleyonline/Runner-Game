@@ -21,29 +21,16 @@ class Play extends Phaser.Scene {
             frameWidth: 650,
             frameHeight: 120
         })
+        this.load.spritesheet('crow','crow.png', {
+            frameWidth: 16,
+            frameHeight: 16
+        })
 
         this.load.image('sky', 'sky.png')
+        this.load.image('bullet', 'bullet.png')
     }
 
     create() {
-
-        //keyboard input setup
-        this.keys = this.input.keyboard.createCursorKeys()
-
-        this.add.image(game.config.width / 2, game.config.height / 2, 'sky')
-
-        this.player = new Player(this, game.config.width / 2, game.config.height / 2)
-        this.playerGun = this.player.playerGun
-
-        this.ground1 = new Ground(this, 0, game.config.height * 9/10)
-        this.ground2 = new Ground(this, game.config.width, game.config.height * 9/10)
-
-        this.groundBody = this.physics.add.sprite(game.config.width / 2, game.config.height, 'groundBody')
-        this.groundBody.setImmovable(true)
-        this.groundBody.body.allowGravity = false
-        this.physics.add.collider(this.player, this.groundBody)
-
-        this.player.body.gameObject.setToTop()
 
         // player animation
         this.anims.create({
@@ -82,6 +69,36 @@ class Play extends Phaser.Scene {
                 end: 8,
             })
         })
+        this.anims.create({
+            key: 'fly',
+            frameRate: 8,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('crow',{
+                start:0,
+                end: 2
+            })
+        })
+
+        //keyboard input setup
+        this.keys = this.input.keyboard.createCursorKeys()
+
+        this.add.image(game.config.width / 2, game.config.height / 2, 'sky')
+
+        this.player = new Player(this, game.config.width / 2, game.config.height / 2)
+        this.playerGun = this.player.playerGun
+
+        this.ground1 = new Ground(this, 0, game.config.height * 9/10)
+        this.ground2 = new Ground(this, game.config.width, game.config.height * 9/10)
+
+        this.crow1 = new Crow(this, this.player, game.config.width  * (4/5), game.config.height * 1/3)
+
+        this.groundBody = this.physics.add.sprite(game.config.width / 2, game.config.height, 'groundBody')
+        this.groundBody.setImmovable(true)
+        this.groundBody.body.allowGravity = false
+        this.physics.add.collider(this.player, this.groundBody)
+
+        this.player.body.gameObject.setToTop()
+
         this.playerGun.setToTop()
 
         console.log(game.config.width)
@@ -94,6 +111,13 @@ class Play extends Phaser.Scene {
 
         this.playerGun.x = this.player.body.x + 40
         this.playerGun.y = this.player.body.y + 40
+
+        this.physics.moveToObject(this.crow1, this.player)
+
+        console.log(Phaser.Math.Distance.Between(this.player.x, this.player.y, this.crow1.x, this.crow1.y))
+        if (Phaser.Math.Distance.Between(this.player.x, this.player.y, this.crow1.x, this.crow1.y) < 60) {
+            console.log('game over!')
+        }
         
         const { worldX, worldY } = this.input.activePointer;
 
