@@ -29,7 +29,6 @@ class Crow extends Phaser.Physics.Arcade.Sprite {
 class FlyingState extends State {
     enter(scene, crow) {
         scene.physics.add.collider(crow, scene.bulletColliderGroup, (body1,body2) =>{
-            console.log('ping')
             body2.destroy()
             this.stateMachine.transition('dead')
             return

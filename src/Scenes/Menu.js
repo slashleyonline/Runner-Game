@@ -29,6 +29,10 @@ class Menu extends Phaser.Scene {
             frameHeight: 16
         })
 
+        this.load.spritesheet('playSign', 'playSign.png', {
+            frameWidth: 128,
+            frameHeight: 64
+        })
         this.load.image('sky', 'sky.png')
         this.load.image('bullet', 'bullet.png')
     }
@@ -87,6 +91,8 @@ class Menu extends Phaser.Scene {
         //physics groups
         this.bulletColliderGroup = this.physics.add.group()
         this.crowColliderGroup = this.physics.add.group()
+        this.signColliderGroup = this.physics.add.group()
+
 
         //background
         this.add.image(game.config.width / 2, game.config.height / 2, 'sky')
@@ -100,13 +106,16 @@ class Menu extends Phaser.Scene {
         //setting up static ground
         this.groundBody = new GroundBody(this, game.config.width / 2, game.config.height, 'groundBody')
         this.physics.add.collider(this.player, this.groundBody)
+
+        //add menuSigns
+        this.playSign = new MenuSign(this, game.config.width * 0.7, game.config.height * 0.7, 'playSign')
+
     }
 
     update() {
         //step FSMs
         this.gameFSM.step()
         this.gunFSM.step()
-
 
         this.playerGun.x = this.player.x - 20
         this.playerGun.y = this.player.y -20
