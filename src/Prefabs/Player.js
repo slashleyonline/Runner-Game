@@ -6,7 +6,7 @@ class PlayerGun extends Phaser.GameObjects.Sprite {
         this.parentScene = scene
         this.parentScene.add.existing(this)
 
-        this.setOrigin(0.37,0.25)
+        this.setOrigin(0.35,0.28)
 
         this.scale = 2.5
     }
@@ -28,5 +28,104 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.body.allowGravity = true
 
         this.scale = 2.5
+
+        this.parentScene.movementFSM = new StateMachine('running', {
+            running: new RunningState(),
+            moveLeft: new MoveLeftState(),
+            moveRight: new MoveRightState(),
+            jumping: new JumpingState(),
+        }, [scene, this])
+    }
+}
+
+
+class RunningState extends State {
+    enter(scene, player) {
+        player.body.setVelocity(0)
+        player.play('run')
+        player.playerGun.play('bounceArm')
+    }
+    execute(scene, player){
+        const {left, right, up, down, space, shift} = scene.keys
+
+        if(Phaser.Input.Keyboard.JustDown(up)) {
+            this.stateMachine.transition('jumping')
+            return
+        }
+
+        if(Phaser.Input.Keyboard.JustDown(left)) {
+            this.stateMachine.transition('moveLeft')
+            return
+        }
+        if(Phaser.Input.Keyboard.JustDown(right)) {
+            this.stateMachine.transition('moveRight')
+            return
+        }
+
+    }
+}
+class MoveLeftState extends State {
+    enter(scene, player){
+        console.log('moving left!')
+        //player.play('run')
+        //player.playerGun.play('bounceArm')
+        player.body.setVelocityX(-100)
+    }
+    
+    execute(scene, player){
+        const {left, right, up, down, space, shift} = scene.keys
+
+        if(Phaser.Input.Keyboard.JustDown(up)) {
+            this.stateMachine.transition('jumping')
+            return
+        }
+
+        if(Phaser.Input.Keyboard.JustDown(right)) {
+            this.stateMachine.transition('moveRight')
+            return
+        }
+
+        if(!left.isDown && !right.isDown) {
+            this.stateMachine.transition('running')
+            return
+        }
+    }
+}
+
+class MoveRightState extends State {
+    enter(scene, player){
+        console.log('moving right!')
+        //player.play('run')
+        //player.playerGun.play('bounceArm')
+        player.body.setVelocityX(100)
+    }
+    
+    execute(scene, player){
+        const {left, right, up, down, space, shift} = scene.keys
+
+        if(Phaser.Input.Keyboard.JustDown(up)) {
+            this.stateMachine.transition('jumping')
+            return
+        }
+
+        if(Phaser.Input.Keyboard.JustDown(left)) {
+            this.stateMachine.transition('moveLeft')
+            return
+        }
+
+        if(!left.isDown && !right.isDown) {
+            this.stateMachine.transition('running')
+            return
+        }
+    }
+}
+
+class JumpingState extends State {
+    enter(scene, player) {
+        player.body.setVelocityY(100)
+    }
+    
+    execute(scene, player){
+        if player.body.
     }
 }

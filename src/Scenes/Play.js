@@ -26,6 +26,10 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+
+        //keyboard input setup
+        this.keys = this.input.keyboard.createCursorKeys()
+
         this.add.image(game.config.width / 2, game.config.height / 2, 'sky')
 
         this.player = new Player(this, game.config.width / 2, game.config.height / 2)
@@ -40,6 +44,7 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.player, this.groundBody)
 
         this.player.body.gameObject.setToTop()
+
         // player animation
         this.anims.create({
             key: 'run',
@@ -59,15 +64,15 @@ class Play extends Phaser.Scene {
                 end: 6,
             })
         })
-
-        this.player.play('run')
-        this.playerGun.play('bounceArm')
         this.playerGun.setToTop()
 
         console.log(game.config.width)
     
     }
+    
     update() {
+
+        this.movementFSM.step()
         this.playerGun.x = this.player.body.x + 40
         this.playerGun.y = this.player.body.y + 40
         
