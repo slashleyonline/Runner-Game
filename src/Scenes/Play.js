@@ -64,6 +64,24 @@ class Play extends Phaser.Scene {
                 end: 6,
             })
         })
+        this.anims.create({
+            key: 'jump',
+            frameRate: 2,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('cowboy',{
+                start: 2,
+                end: 3,
+            })
+        })
+        this.anims.create({
+            key: 'fire',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('cowboy',{
+                start: 7,
+                end: 8,
+            })
+        })
         this.playerGun.setToTop()
 
         console.log(game.config.width)
@@ -71,8 +89,9 @@ class Play extends Phaser.Scene {
     }
     
     update() {
-
+        this.gunFSM.step()
         this.movementFSM.step()
+
         this.playerGun.x = this.player.body.x + 40
         this.playerGun.y = this.player.body.y + 40
         
