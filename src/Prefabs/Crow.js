@@ -51,7 +51,6 @@ class DeadState extends State {
 
         const sounds= ['crow1', 'crow2', 'crow3']
         const crowSound = Math.floor(Math.random() * 3)
-        scene.sound.volume= 0.3
         scene.sound.play(sounds[crowSound])
         crow.destroy()
         return

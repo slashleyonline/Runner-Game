@@ -230,7 +230,7 @@ class ShootingState extends State {
 
         const sounds= ['gunfire1', 'gunfire2', 'gunfire3']
         const fireSound = Math.floor(Math.random() * 3)
-        scene.sound.volume= 0.15
+        scene.sound.volume= 0.1
         scene.sound.play(sounds[fireSound])
 
         scene.time.addEvent({
