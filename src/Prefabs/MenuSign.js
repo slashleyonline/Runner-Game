@@ -22,7 +22,7 @@ class MenuSign extends Phaser.Physics.Arcade.Sprite {
         })
     }
     explode(){
-        const emitter = this.parentScene.add.particles(this.x, this.y, 'playSignFragments', {
+        const emitter = this.parentScene.add.particles(this.x, this.y, this.key + 'Fragments', {
             lifespan: 4000,
             frame: { 
                 frames: [0, 1, 2],

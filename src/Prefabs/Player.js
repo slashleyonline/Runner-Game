@@ -26,6 +26,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.body.setCollideWorldBounds()
         this.body.allowGravity = true
         this.scale = 2.5
+        this.body.setSize(14, 41)
 
         //adding gun
         this.playerGun = new PlayerGun(this.scene, this, this.body.x + 40, this.body.y + 40)
@@ -50,14 +51,18 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             reloading: new ReloadingState(),
             deadGun: new DeadGunState(),
         }, [scene, this.playerGun])
+
+        scene.physics.add.collider(this, scene.obstacleColliderGroup, () =>{
+            scene.gameFSM.transition('gameOver')
+        })
     }
 }
 
 class PlayingState extends State {
     execute(scene, player) {
         //Make playerGun follow player
-        player.playerGun.x = player.body.x + 40
-        player.playerGun.y = player.body.y + 40
+        player.playerGun.x = player.body.x - 3
+        player.playerGun.y = player.body.y + 30
     }
 }
 
@@ -75,15 +80,14 @@ class GameOverState extends State {
         scene.replayButton = new ReplayButton(scene, game.config.width / 2, game.config.height * 4/ 5)
     }
     execute(scene, player) {
-        player.playerGun.x = player.body.x + 40
-        player.playerGun.y = player.body.y + 40
+        player.playerGun.x = player.body.x -3
+        player.playerGun.y = player.body.y + 30
     }
 }
 
 class RunningState extends State {
     //default
     enter(scene, player) {
-        console.log('entered running state')
         player.body.setVelocity(0)
         player.play('run', true)
     }
@@ -162,7 +166,7 @@ class MoveRightState extends State {
 class JumpingState extends State {
     enter(scene, player) {
         player.play('jump')
-        player.body.setVelocityY(-1000);
+        player.body.setVelocityY(-750);
     }
     
     execute(scene, player){
@@ -226,7 +230,7 @@ class ShootingState extends State {
         this.bullet = new Bullet(scene, worldX, worldY, playerGun.x, playerGun.y, playerGun.rotation)
 
         scene.time.addEvent({
-            delay: 300, // in ms
+            delay: 150, // in ms
             callback: () => {
                 this.stateMachine.transition('aiming')
                 return

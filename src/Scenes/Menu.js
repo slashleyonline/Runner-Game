@@ -39,6 +39,10 @@ class Menu extends Phaser.Scene {
         this.load.spritesheet('replayButton', 'replayButton.png', {
             frameWidth: 16
         })
+        this.load.spritesheet('cactus', 'cactus.png', {
+            frameWidth: 30,
+            frameHeight: 20
+        })
 
         this.load.image('gravestone', 'gravestone.png')
         this.load.image('sky', 'sky.png')

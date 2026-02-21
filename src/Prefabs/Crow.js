@@ -16,10 +16,10 @@ class Crow extends Phaser.Physics.Arcade.Sprite {
         this.scale = 2
         this.body.setCircle(8)
 
-        this.parentScene.crowFSM = new StateMachine('flying',{
+        this.parentScene.crowFSMs.push(new StateMachine('flying',{
             flying: new FlyingState(),
             dead: new DeadState()
-        }, [scene, this])
+        }, [scene, this]))
     }
     
 }
@@ -35,15 +35,17 @@ class FlyingState extends State {
 
     execute(scene, crow) {
         if (scene.gameFSM.state != 'gameOver'){
-            scene.physics.moveToObject(crow, scene.player)
+            console.log('flying!')
+            console.log(scene.player.body.position)
+            scene.physics.moveToObject(crow, scene.player, 250)
+
             if (Phaser.Math.Distance.Between(scene.player.x, scene.player.y, crow.x, crow.y) < 60) {
                 console.log('game over!')
                 scene.gameFSM.transition('gameOver')
             }
+
         }
-        else {
-            crow.setVelocity(0)
-        }
+
     }
 }
 class DeadState extends State {
