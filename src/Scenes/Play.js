@@ -23,7 +23,6 @@ class Play extends Phaser.Scene {
 
         //instantiating game objects
         this.player = new Player(this, game.config.width / 4, 390)
-        this.anims.resumeAll()
         this.playerGun = this.player.playerGun
 
         this.ground1 = new Ground(this, 0, game.config.height * 9/10, -500)
@@ -37,23 +36,39 @@ class Play extends Phaser.Scene {
         this.player.body.gameObject.setToTop()
         this.playerGun.setToTop()
 
-        this.timer = 0
+        //text
+        this.scoreboard= this.add.image(game.config.width / 9, game.config.height - 16, 'scoreboard')
+        this.scoreText = this.add.bitmapText(game.config.width / 80, game.config.height - 32, 'Edmunds', "Score: 0")
+        this.score = 0
         
         setInterval(() => {
             if (this.gameFSM.state != 'gameOver'){
-                if (Math.random() > 0.2) {
+                if (Math.random() < 0.3) {
                     new Obstacle(this, 720, 440, 'cactus', this.groundBody)
-                }   
-                for (let i = 0; i < Math.random() * 5; i++){
+                }
+
+                let crowSpawn = lessofTwo((this.score / 50), 8)
+                for (let i = 0; i < Math.random() * crowSpawn; i++){
                     new Crow(this, game.config.width + 200 + (500 * Math.random()), game.config.height * 1/3 -(500 * Math.random()))
                     console.log('crow spawning!')
                 }
     
             }
         }, 5000)
+
+        this.timer = this.time.addEvent({
+            delay: Infinity,
+            loop: false,
+            startAt: 0,
+            paused: false,
+        })
     }
     
     update(delta) {
+
+        console.log(this.score)
+
+        this.scoreText.setText(String("Score: " + this.score))
 
         //step FSMs
         this.gameFSM.step()
@@ -62,6 +77,8 @@ class Play extends Phaser.Scene {
         this.stepCrowFSMs()
         //Move Ground sprites
         if (this.gameFSM.state != 'gameOver'){
+            this.score= Math.floor( this.timer.getElapsed() / 100)
+            console.log(this.timer.getElapsed())
             if (this.ground1.x < -319) {
                 this.ground1.x = game.config.width + 319
             }
@@ -70,6 +87,7 @@ class Play extends Phaser.Scene {
             }
         }
         else {
+            this.timer.remove()
             this.ground1.setVelocityX(0)
             this.ground2.setVelocityX(0)
             this.obstacleColliderGroup.enable = false
@@ -77,6 +95,15 @@ class Play extends Phaser.Scene {
             this.obstacleColliderGroup.setVelocityX(0)
             this.bulletColliderGroup.setVelocityX(0)
             
+        }
+    }
+
+    lessOfTwo(num1, num2) {
+        if (num1 < num2) {
+            return num1
+        }
+        else {
+            return num2
         }
     }
 

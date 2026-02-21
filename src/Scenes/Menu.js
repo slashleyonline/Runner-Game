@@ -44,9 +44,12 @@ class Menu extends Phaser.Scene {
             frameHeight: 20
         })
 
+        this.load.image('scoreboard', 'scoreboard.png')
         this.load.image('gravestone', 'gravestone.png')
         this.load.image('sky', 'sky.png')
         this.load.image('bullet', 'bullet.png')
+
+        this.load.bitmapFont('Edmunds', 'font/Edmunds.png', 'font/Edmunds.xml')
     }
 
     create() {
@@ -96,6 +99,7 @@ class Menu extends Phaser.Scene {
                 end: 2
             })
         })
+        this.anims.resumeAll()
 
         //REMOVE THIS
         this.keys = this.input.keyboard.createCursorKeys()
@@ -104,7 +108,6 @@ class Menu extends Phaser.Scene {
         this.bulletColliderGroup = this.physics.add.group()
         this.crowColliderGroup = this.physics.add.group()
         this.signColliderGroup = this.physics.add.group()
-
 
         //background
         this.add.image(game.config.width / 2, game.config.height / 2, 'sky')
