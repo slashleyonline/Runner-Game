@@ -12,7 +12,4 @@ class GroundBody extends Phaser.Physics.Arcade.Sprite {
         this.body.allowGravity = false
         self.scaleX = 2.5
     }
-    explode() {
-        console.log('boom!')
-    }
 }

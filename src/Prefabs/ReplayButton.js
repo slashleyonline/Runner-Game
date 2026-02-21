@@ -11,7 +11,6 @@ class ReplayButton extends Phaser.Physics.Arcade.Sprite {
         this.setInteractive()
 
         this.on('pointerdown', () => {
-            console.log(this.parentScene)
             if (this.parentScene.scene.key == "playScene"){
                 this.parentScene.bgMusic.destroy()
             }

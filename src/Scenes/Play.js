@@ -50,7 +50,6 @@ class Play extends Phaser.Scene {
                 let crowSpawn = this.lessOfTwo((this.score / 50), 10)
                 for (let i = 0; i < (crowSpawn); i++){
                     new Crow(this, game.config.width + 200 + (500 * Math.random()), game.config.height * 1/3 -(500 * Math.random()))
-                    console.log('crow spawning!')
                 }
     
             }
@@ -72,7 +71,6 @@ class Play extends Phaser.Scene {
     
     update(delta) {
 
-        console.log(this.score)
 
         this.scoreText.setText(String("Score: " + this.score))
 
@@ -84,7 +82,6 @@ class Play extends Phaser.Scene {
         //Move Ground sprites
         if (this.gameFSM.state != 'gameOver'){
             this.score= Math.floor( this.timer.getElapsed() / 100)
-            console.log(this.timer.getElapsed())
             if (this.ground1.x < -319) {
                 this.ground1.x = game.config.width + 319
             }
@@ -115,7 +112,6 @@ class Play extends Phaser.Scene {
 
     stepCrowFSMs() {
         for (let i = 0; i < this.crowFSMs.length; i++) {
-            console.log('step')
             this.crowFSMs[i].step()
         }
     }
