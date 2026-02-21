@@ -234,7 +234,7 @@ class ShootingState extends State {
         scene.sound.play(sounds[fireSound])
 
         scene.time.addEvent({
-            delay: 150, // in ms
+            delay: 150,
             callback: () => {
                 this.stateMachine.transition('aiming')
                 return
