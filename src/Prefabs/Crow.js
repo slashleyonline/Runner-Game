@@ -34,10 +34,15 @@ class FlyingState extends State {
     }
 
     execute(scene, crow) {
-        scene.physics.moveToObject(crow, scene.player)
-            
-         if (Phaser.Math.Distance.Between(scene.player.x, scene.player.y, this.x, this.y) < 60) {
-            console.log('game over!')
+        if (scene.gameFSM.state != 'gameOver'){
+            scene.physics.moveToObject(crow, scene.player)
+            if (Phaser.Math.Distance.Between(scene.player.x, scene.player.y, crow.x, crow.y) < 60) {
+                console.log('game over!')
+                scene.gameFSM.transition('gameOver')
+            }
+        }
+        else {
+            crow.setVelocity(0)
         }
     }
 }

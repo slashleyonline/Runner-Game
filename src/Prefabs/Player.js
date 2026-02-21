@@ -41,12 +41,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             moveLeft: new MoveLeftState(),
             moveRight: new MoveRightState(),
             jumping: new JumpingState(),
+            dead: new DeadPlayerState(),
         }, [scene, this])
 
         this.parentScene.gunFSM = new StateMachine('aiming', {
             aiming: new AimingState(),
             shooting: new ShootingState(),
             reloading: new ReloadingState(),
+            deadGun: new DeadGunState(),
         }, [scene, this.playerGun])
     }
 }
@@ -60,10 +62,22 @@ class PlayingState extends State {
 }
 
 class GameOverState extends State {
-    enter() {
+    enter(scene, player) {
         //code here should bring game to an end
-    }
+        scene.anims.pauseAll()
+        player.body.setImmovable()
+        player.body.enable = false
 
+        scene.gunFSM.transition('deadGun')
+        scene.movementFSM.transition('dead')
+
+        scene.add.image( game.config.width / 2, game.config.height / 2, 'gravestone')
+        scene.replayButton = new ReplayButton(scene, game.config.width / 2, game.config.height * 4/ 5)
+    }
+    execute(scene, player) {
+        player.playerGun.x = player.body.x + 40
+        player.playerGun.y = player.body.y + 40
+    }
 }
 
 class RunningState extends State {
@@ -178,23 +192,28 @@ class JumpingState extends State {
 class AimingState extends State {
     //default
     enter(scene, playerGun) {
-        if (scene.scene.key != 'menuScene'){
-            playerGun.play('bounceArm', true)
-        }
+        if (scene.gameFSM.state != 'gameOver'){
+            if (scene.scene.key != 'menuScene'){
+                playerGun.play('bounceArm', true)
+            }
 
-        scene.input.once('pointerdown', () => {
-            this.stateMachine.transition('shooting')
-            return
-        })
+            scene.input.once('pointerdown', () => {
+                if (scene.gameFSM.state != 'gameOver'){
+                    this.stateMachine.transition('shooting')
+                    return
+                }
+            })
+        }
     }
     execute(scene, playerGun) {
-        
-        const { worldX, worldY } = scene.input.activePointer;
-        const angleToPointer = (
-            Math.atan2(worldY - playerGun.y,  worldX - playerGun.x)
-        );
+        if (scene.gameFSM.state != 'gameOver'){
+            const { worldX, worldY } = scene.input.activePointer;
+            const angleToPointer = (
+                Math.atan2(worldY - playerGun.y,  worldX - playerGun.x)
+            );
 
-        playerGun.rotation = angleToPointer
+            playerGun.rotation = angleToPointer
+        }
     }
 }
 class ShootingState extends State {
@@ -224,4 +243,12 @@ class ReloadingState extends State {
     execute(scene, playerGun) {
 
     }
+}
+
+class DeadPlayerState extends State {
+    //empty state, no more control over gun
+}
+
+class DeadGunState extends State {
+    //empty state, no more control over gun
 }
