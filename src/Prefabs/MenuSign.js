@@ -24,7 +24,7 @@ class MenuSign extends Phaser.Physics.Arcade.Sprite {
                 this.howToDump = new InfoDump(scene, game.config.width / 2, game.config.height/2, 'howToSign')
             }
             else {
-                this.creditsDump = new InfoDump(scene, game.config.width / 2, game.config.height/2, 'creditsSign')
+                this.creditsDump = new InfoDump(scene, game.config.width / 2, game.config.height/2, 'creditsInfo')
             }
         })
     }

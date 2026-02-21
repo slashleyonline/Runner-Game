@@ -36,6 +36,10 @@ class Menu extends Phaser.Scene {
             frameWidth: 128,
             frameHeight: 64
         })
+        this.load.spritesheet('creditsInfo', 'CreditsInfoSign.png', {
+            frameWidth: 480,
+            frameHeight: 360
+        })
         this.load.spritesheet('howToPlaySign', 'HowToPlaySign.png', {
             frameWidth: 128,
             frameHeight: 64
