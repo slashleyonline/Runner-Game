@@ -229,6 +229,11 @@ class ShootingState extends State {
 
         this.bullet = new Bullet(scene, worldX, worldY, playerGun.x, playerGun.y, playerGun.rotation)
 
+        const sounds= ['gunfire1', 'gunfire2', 'gunfire3']
+        const fireSound = Math.floor(Math.random() * 3)
+        scene.sound.volume= 0.15
+        scene.sound.play(sounds[fireSound])
+
         scene.time.addEvent({
             delay: 150, // in ms
             callback: () => {

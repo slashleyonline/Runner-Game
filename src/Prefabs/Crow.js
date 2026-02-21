@@ -50,6 +50,12 @@ class FlyingState extends State {
 }
 class DeadState extends State {
     enter(scene, crow) {
+        scene.sound.play('punch')
+
+        const sounds= ['crow1', 'crow2', 'crow3']
+        const crowSound = Math.floor(Math.random() * 3)
+        scene.sound.volume= 0.3
+        scene.sound.play(sounds[crowSound])
         crow.destroy()
         return
     }

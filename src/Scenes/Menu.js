@@ -49,6 +49,17 @@ class Menu extends Phaser.Scene {
         this.load.image('sky', 'sky.png')
         this.load.image('bullet', 'bullet.png')
 
+        this.load.audio('bgmusic', 'audio/music/olele44-hoedown-heartbeat.mp3')
+        this.load.audio('gunfire1', 'audio/sounds/gunfire1.wav')
+        this.load.audio('gunfire2', 'audio/sounds/gunfire2.wav')
+        this.load.audio('gunfire3', 'audio/sounds/gunfire3.wav')
+        this.load.audio('punch', 'audio/sounds/punch.wav')
+        this.load.audio('crow1', 'audio/sounds/crow1.wav')
+        this.load.audio('crow2', 'audio/sounds/crow2.wav')
+        this.load.audio('crow3', 'audio/sounds/crow3.wav')
+
+
+
         this.load.bitmapFont('Edmunds', 'font/Edmunds.png', 'font/Edmunds.xml')
     }
 

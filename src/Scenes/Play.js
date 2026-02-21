@@ -47,8 +47,8 @@ class Play extends Phaser.Scene {
                     new Obstacle(this, 720, 440, 'cactus', this.groundBody)
                 }
 
-                let crowSpawn = this.lessOfTwo((this.score / 50), 30)
-                for (let i = 0; i < Math.random() * crowSpawn; i++){
+                let crowSpawn = this.lessOfTwo((this.score / 50), 10)
+                for (let i = 0; i < (crowSpawn); i++){
                     new Crow(this, game.config.width + 200 + (500 * Math.random()), game.config.height * 1/3 -(500 * Math.random()))
                     console.log('crow spawning!')
                 }
@@ -62,6 +62,12 @@ class Play extends Phaser.Scene {
             startAt: 0,
             paused: false,
         })
+
+        //music
+        this.bgMusic = this.sound.add('bgmusic')
+        this.bgMusic.volume = 0.25
+        this.bgMusic.loop = true
+        this.bgMusic.play()
     }
     
     update(delta) {
