@@ -69,6 +69,7 @@ class GameOverState extends State {
 class RunningState extends State {
     //default
     enter(scene, player) {
+        console.log('entered running state')
         player.body.setVelocity(0)
         player.play('run', true)
     }
@@ -155,12 +156,12 @@ class JumpingState extends State {
             const {left, right, up, down, space, shift} = scene.keys
             player.play('run', true)
 
-            if(Phaser.Input.Keyboard.JustDown(left)) {
+            if(left.isDown) {
                 this.stateMachine.transition('moveLeft')
                 return
             }
 
-            if(Phaser.Input.Keyboard.JustDown(right)) {
+            if(right.isDown) {
                 this.stateMachine.transition('moveRight')
                 return
             }
