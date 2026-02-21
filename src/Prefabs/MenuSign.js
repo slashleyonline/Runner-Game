@@ -17,8 +17,15 @@ class MenuSign extends Phaser.Physics.Arcade.Sprite {
 
         scene.physics.add.collider(this, scene.bulletColliderGroup, (body1,body2) =>{
             body2.destroy()
-            this.explode()
-
+            if (this.key == 'playSign') {
+                this.explode()
+            }
+            else if (this.key == 'howToPlaySign') {
+                this.howToDump = new InfoDump(scene, game.config.width / 2, game.config.height/2, 'howToSign')
+            }
+            else {
+                this.creditsDump = new InfoDump(scene, game.config.width / 2, game.config.height/2, 'creditsSign')
+            }
         })
     }
     explode(){

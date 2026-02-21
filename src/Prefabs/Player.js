@@ -48,7 +48,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.parentScene.gunFSM = new StateMachine('aiming', {
             aiming: new AimingState(),
             shooting: new ShootingState(),
-            reloading: new ReloadingState(),
             deadGun: new DeadGunState(),
         }, [scene, this.playerGun])
 
@@ -77,7 +76,7 @@ class GameOverState extends State {
         scene.movementFSM.transition('dead')
 
         scene.add.image( game.config.width / 2, game.config.height / 2, 'gravestone')
-        scene.replayButton = new ReplayButton(scene, game.config.width / 2, game.config.height * 4/ 5)
+        scene.replayButton = new ReplayButton(scene, game.config.width / 2, game.config.height * 4/ 5, 'replayButton')
     }
     execute(scene, player) {
         player.playerGun.x = player.body.x -3
@@ -244,15 +243,7 @@ class ShootingState extends State {
         })
     }
 }
-class ReloadingState extends State {
-    //may get axed depending on how much time is left
-    enter(scene, playerGun) {
 
-    }
-    execute(scene, playerGun) {
-
-    }
-}
 
 class DeadPlayerState extends State {
     //empty state, no more control over gun

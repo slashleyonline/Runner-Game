@@ -32,11 +32,26 @@ class Menu extends Phaser.Scene {
             frameWidth: 128,
             frameHeight: 64
         })
+        this.load.spritesheet('creditsSign', 'CreditsSign.png', {
+            frameWidth: 128,
+            frameHeight: 64
+        })
+        this.load.spritesheet('howToPlaySign', 'HowToPLaySign.png', {
+            frameWidth: 128,
+            frameHeight: 64
+        })
+        this.load.spritesheet('howToSign', 'HowToSign.png', {
+            frameWidth: 480,
+            frameHeight: 360
+        })
         this.load.spritesheet('playSignFragments', 'playSignFragments.png', {
             frameWidth: 64,
             frameHeight: 64,
         })
         this.load.spritesheet('replayButton', 'replayButton.png', {
+            frameWidth: 16
+        })
+        this.load.spritesheet('quitButton', 'quitButton.png', {
             frameWidth: 16
         })
         this.load.spritesheet('cactus', 'cactus.png', {
@@ -134,7 +149,10 @@ class Menu extends Phaser.Scene {
         this.physics.add.collider(this.player, this.groundBody)
 
         //add menuSigns
-        this.playSign = new MenuSign(this, game.config.width * 0.7, game.config.height * 0.7, 'playSign')
+        this.playSign = new MenuSign(this, game.config.width * 0.8, game.config.height * 0.7, 'playSign')
+        this.howToSign = new MenuSign(this, game.config.width * 0.5, game.config.height * 0.4, 'howToPlaySign')
+        this.creditsSign = new MenuSign(this, game.config.width * 0.15, game.config.height * 0.1, 'creditsSign')
+
 
     }
 
