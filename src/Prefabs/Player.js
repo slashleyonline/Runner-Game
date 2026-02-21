@@ -206,7 +206,7 @@ class ShootingState extends State {
         this.bullet = new Bullet(scene, worldX, worldY, playerGun.x, playerGun.y, playerGun.rotation)
 
         scene.time.addEvent({
-            delay: 100, // in ms
+            delay: 300, // in ms
             callback: () => {
                 this.stateMachine.transition('aiming')
                 return

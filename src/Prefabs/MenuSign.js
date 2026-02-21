@@ -13,27 +13,40 @@ class MenuSign extends Phaser.Physics.Arcade.Sprite {
         this.body.setImmovable(true)
         this.body.allowGravity = false
 
+        this.key = key
 
         scene.physics.add.collider(this, scene.bulletColliderGroup, (body1,body2) =>{
             body2.destroy()
             this.explode()
-            if (key == 'playSign') {
-                this.parentScene.scene.start('playScene')
-            }
+
         })
     }
     explode(){
-        this.destroy()
-
-        const emitter = this.add.particles(400, 250, 'flares', {
-            frame: [ 'red', 'yellow', 'green' ],
+        const emitter = this.parentScene.add.particles(this.x, this.y, 'playSignFragments', {
             lifespan: 4000,
-            speed: { min: 150, max: 250 },
-            scale: { start: 0.8, end: 0 },
-            gravityY: 150,
-            blendMode: 'ADD',
+            frame: { 
+                frames: [0, 1, 2],
+                cycle: true
+            },
+            speed: { min: 300, max: 300 },
+            scale: { start: 1.5},
+            gravityY: 5000,
             emitting: false
-        });
-        }
+        })
+
+        emitter.explode(3)
+
+        this.parentScene.time.addEvent({
+            delay: 250,
+            callback: () => {
+                this.moveScene()
+            }
+        })
+        this.destroy()
+    }
+    moveScene() {
+        if (this.key == 'playSign') {
+            this.parentScene.scene.start('playScene')
+         }
     }
 }

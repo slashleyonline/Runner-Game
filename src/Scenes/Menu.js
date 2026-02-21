@@ -28,11 +28,15 @@ class Menu extends Phaser.Scene {
             frameWidth: 16,
             frameHeight: 16
         })
-
         this.load.spritesheet('playSign', 'playSign.png', {
             frameWidth: 128,
             frameHeight: 64
         })
+        this.load.spritesheet('playSignFragments', 'playSignFragments.png', {
+            frameWidth: 64,
+            frameHeight: 64,
+        })
+
         this.load.image('sky', 'sky.png')
         this.load.image('bullet', 'bullet.png')
     }

@@ -8,8 +8,6 @@ class Crow extends Phaser.Physics.Arcade.Sprite {
         this.parentScene.physics.add.existing(this)
         this.parentScene.crowColliderGroup.add(this)
 
-        console.log(this.parentScene.crowColliderGroup)
-
         this.anims.play('fly')
 
         this.body.allowGravity = false
